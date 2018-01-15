@@ -1,7 +1,5 @@
 import { Component } from 'react';
-import { findDOMNode } from 'react-dom';
 import axios from 'axios';
-import $ from 'jquery';
 
 export default class LandingPage extends Component {
   constructor(props) {
@@ -14,29 +12,18 @@ export default class LandingPage extends Component {
   }
 
   handleZip(e){
-    this.setState({ zip: e.target.value }, () => {
-      console.log(this.state);
-    });
+    this.setState({ zip: e.target.value });
   }
 
   handleSubmit(e){
     e.preventDefault();
-    let input = findDOMNode(this.refs.input);
-    $(input).blur().val('');
     this.props.requestWeather(this.state.zip);
-    this.handleScroll();
-  }
-
-  handleScroll(){
-    $('html').animate({
-      scrollTop: $('.weather').offset().top
-    }, 1000);
   }
 
   render() {
     return (
       <div className="landing">
-        <h1>Common Weather App</h1>
+        <h1>Weather App</h1>
         <p className="description">Type in your zip code to see how wonderful the weather is in your area this week</p>
         <form onSubmit={this.handleSubmit}>
           <input type="text" placeholder="000000" onChange={this.handleZip} className="zipInput" ref="input"/>

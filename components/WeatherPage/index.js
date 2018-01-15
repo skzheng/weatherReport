@@ -5,23 +5,14 @@ import $ from 'jquery';
 export default class HelloWorld extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      temps : [
-        {name: "Monday" , temp: 56},
-        {name: "Tuesday" , temp: 45},
-        {name: "Wednesday" , temp: 65},
-        {name: "Thursday" , temp: 69},
-        {name: "Friday" , temp: 44},
-        {name: "Saturday" , temp: 31}
-      ]
-    }
   }
 
   render() {
     return (
       <div className="weather">
         {
-          this.state.temps.map((item, i) => {
+          this.props.temps ? 
+          this.props.temps.map((item, i) => {
             return (
               <div className="day" key={i}>
                 <div className="dayName">
@@ -34,6 +25,8 @@ export default class HelloWorld extends Component {
               </div>
             )
           })
+          :
+          <div className="loader"></div>
         }
         <style jsx>{`
           .weather {
@@ -43,10 +36,24 @@ export default class HelloWorld extends Component {
             justify-content: center;
             align-items: center;
             color:white;
+            flex-wrap: wrap;
           }
+          .loader {
+            border: 16px solid white;
+            border-radius: 50%;
+            border-top: 16px solid #ea4b23;
+            width: 100px;
+            height: 100px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            animation: spin 2s linear infinite, shrink 2s linear infinite;
+          }
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          } 
           .day{
             margin: 5px;
-            width: 12vw;
+            min-width: 12vw;
           }
           .dayName {
             text-align:center;
@@ -69,7 +76,28 @@ export default class HelloWorld extends Component {
           .temp {
             color: white;
           }
-          
+
+          @media only screen and (max-width: 768px) {
+            .weather {
+              flex-direction: column;
+              flex-wrap: nowrap;
+              overflow: hidden;
+            }
+            .day {
+              width: 30vw;
+            }
+            .dayName > p {
+              margin: 5px;
+            }
+            .dayTemp {
+              height: 3vh;
+              padding: 20px;
+              align-items:center;
+            }
+            .dayTemp > h1 {
+              font-size: 36px;
+            }
+          }
         `}</style>
       </div>
     )
